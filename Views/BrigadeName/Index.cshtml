@@ -1,0 +1,52 @@
+﻿@using TrainRepairCRUDWebApplication.Models;
+@model TrainRepairCRUDWebApplication.Models.BrigadeName;
+@{
+    ViewData["Title"] = "Наименование бригад";
+}
+
+<body>
+    <h1>@ViewData["Title"]</h1>
+    <div>
+        <div >
+            <form asp-action="AddBrigadeName">
+                <div class="form-group">
+                    <div>
+                        <input placeholder="Наименование" data-val-required="text" asp-for="NameBrigade" />
+                        <input class="btn btn-primary" type="submit" value="Добавить" />
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <td>Код</td>
+                    <td>Наименование</td>
+                    <td> </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (BrigadeName item in ViewBag.BrigadeNames)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td>@Html.DisplayFor(modelItem => item.NameBrigade)</td>
+                        <td>
+                            <form  asp-action="RemoveBrigadeName" method="get">
+                                <div class="form-group">
+                                    <button class="btn btn-outline-primary" value="@item.Id" name=id>Удалить</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    };
+}

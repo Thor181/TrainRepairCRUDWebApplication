@@ -1,0 +1,73 @@
+﻿@using TrainRepairCRUDWebApplication.Models.InnerModels;
+
+@model TrainRepairCRUDWebApplication.Models.InnerModels.RepairInner;
+
+
+@{
+    ViewData["Title"] = "Ремонт";
+}
+
+<div class=row>
+    <div class=column-first><h1>@ViewData["Title"]</h1></div>
+</div>
+
+<div class="row">
+
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <td>Код</td>
+                    <td>Тип</td>
+                    <td>Стоимость</td>
+                    <td>Надбавка</td>
+                    <td>% надбавки</td>
+                    <td>Дата начала</td>
+                    <td>Дата окончания</td>
+                    <td>Причина</td>
+                    <td>Бригада</td>
+                    <td> </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (RepairInner item in ViewBag.Repairs)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TypeRepair)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Money)</td>
+
+                        @if (item.Bonus == true)
+                        {
+                            <td>Да</td>
+                        }
+                        else
+                        {
+                            <td>Нет</td>
+                        }
+
+                        <td>@Html.DisplayFor(modelItem => item.BonusPercent)</td>
+                        <td>@item.DateStart</td>
+                        <td>@item.DateStop</td>
+                        <td>@Html.DisplayFor(modelItem => item.Reason)</td>
+                        <td>@Html.DisplayFor(modelItem => item.BrigadeName)</td>
+                        <td>
+                            <form asp-controller="Repair" asp-action="RemoveRepair" method="get">
+                                <div class="form-group">
+                                    <button class="btn btn-outline-primary" name="idRepair" value="@item.Id">Завершить</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    };
+}

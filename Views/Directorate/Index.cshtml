@@ -1,0 +1,53 @@
+﻿@using TrainRepairCRUDWebApplication.Models;
+@model TrainRepairCRUDWebApplication.Models.Directorate;
+@{
+    ViewData["Title"] = "Дирекция";
+}
+
+<body>
+    <h1>@ViewData["Title"]</h1>
+    <div>
+        <div >
+            <form asp-action="AddDirectorate">
+               
+                <div class="form-group">
+                    <div>
+                        <input placeholder="Наименование" data-val-required="text" asp-for="Directorate1" />
+                        <input class="btn btn-primary" type="submit" value="Добавить" />
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <td>Код</td>
+                    <td>Наименование</td>
+                    <td> </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Directorate item in ViewBag.Directorates)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Directorate1)</td>
+                        <td>
+                            <form asp-controller="DirectorateController" asp-action="RemoveDirectorate" method="post">
+                                <div class="form-group">
+                                    <button asp-action="RemoveDirectorate" class="btn btn-outline-primary" asp-route-id="@item.Id"> Удалить</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    };
+}

@@ -1,0 +1,70 @@
+﻿@using TrainRepairCRUDWebApplication.Models;
+@model TrainRepairCRUDWebApplication.Models.Railway;
+
+@{
+    ViewData["Title"] = "Пути";
+}
+
+<div class=row>
+    <div class=column-first><h1>@ViewData["Title"]</h1></div>
+    <div class=column-second><h2>Добавление путей</h2></div>
+</div>
+
+<div class="row">
+
+    <div class="column-first table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <td>Код</td>
+                    <td>Наименование</td>
+                    <td>Тип</td>
+                    <td>Банк</td>
+                    <td>ИНН</td>
+                    <td>Юр. адрес</td>
+                    <td> </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Railway item in ViewBag.Railways)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td>@Html.DisplayFor(modelItem => item.RailwayName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.External)</td>
+                        <td>@Html.DisplayFor(modelItem => item.BankExternal)</td>
+                        <td>@Html.DisplayFor(modelItem => item.InnExternal)</td>
+                        <td>@Html.DisplayFor(modelItem => item.AddressExternal)</td>
+                        <td>
+                            <form asp-controller="Railway" asp-action="RemoveRailway" method="post">
+                                <div class="form-group">
+                                    <button asp-action="RemoveRailway" class="btn btn-outline-primary" asp-route-id="@item.Id">Удалить</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="column-second right-column">
+        <form asp-action="AddRailway">
+            <div class="form-group">
+                <div class="form-group">
+                    <input placeholder="Наименование" asp-for=RailwayName />
+                    <input placeholder="Тип: внешний/местный" asp-for=External />
+                    <input placeholder="Банк" asp-for=BankExternal />
+                    <input placeholder="ИНН" asp-for=InnExternal />
+                    <input placeholder="Юр. адрес" asp-for=AddressExternal />
+                    <p><input class="btn btn-primary btn-align-right" type="submit" value="Добавить"/></p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    };
+}

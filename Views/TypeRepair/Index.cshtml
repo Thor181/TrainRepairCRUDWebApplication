@@ -1,0 +1,54 @@
+﻿@using TrainRepairCRUDWebApplication.Models;
+@model TrainRepairCRUDWebApplication.Models.TypeRepair;
+@{
+    ViewData["Title"] = "Типы ремонта";
+}
+
+<body>
+    <h1>@ViewData["Title"]</h1>
+    <div>
+        <div>
+            <form asp-action="AddTypeRepair" asp-controller="TypeRepair">
+                
+                <div class="form-group">
+                    <div>
+                        <input placeholder="Наименование" data-val-required="text" asp-for=TypeRepair1 />
+                        <input class="btn btn-primary" type="submit" value="Добавить" />
+                        
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <table class="table-responsive" >
+            <thead>
+                <tr>
+                    <td>Код</td>
+                    <td>Наименование</td>
+                    <td> </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (TypeRepair item in ViewBag.TypeRepairs)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td>@item.TypeRepair1</td>
+                        <td>
+                            <form asp-controller="TypeRepair" asp-action="RemoveTypeRepair" method="get">
+                                <div class="form-group">
+                                    <button class="btn btn-outline-primary" value="@item.Id" name="id" type="submit"> Удалить</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    };
+}

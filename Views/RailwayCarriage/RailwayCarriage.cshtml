@@ -1,0 +1,141 @@
+﻿@using TrainRepairCRUDWebApplication.Models.InnerModels;
+@using TrainRepairCRUDWebApplication.Models;
+@model TrainRepairCRUDWebApplication.Models.InnerModels.RailwayCarriageInner;
+
+
+@{
+    ViewData["Title"] = "Вагоны";
+    ViewData["SecondTitle"] = "Добавление вагонов";
+}
+
+<div class=row>
+    <div class=column-first><h1>@ViewData["Title"]</h1></div>
+    <div class=column-second><h2>@ViewData["SecondTitle"]</h2></div>
+</div>
+
+<div class="row">
+    <div class="column-first table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <td>Код</td>
+                    <td>Путь</td>
+                    <td>Тип</td>
+                    <td>Год выпуска</td>
+                    <td>Дирекция</td>
+                    <td>Ремонт</td>
+                    <td>Изображение</td>
+                    <td> </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (RailwayCarriageInner item in ViewBag.RailwayCarriage)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Railway)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TypeCarriage)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Year)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Directorate)</td>
+
+                        @if (item.IdRepair == 0)
+                        {
+                            <td>Ремонт не требуется</td>
+                        }
+                        else
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.Repair)</td>
+                        }
+
+                        <td>
+                            @if (string.IsNullOrWhiteSpace(item.Picture) != true)
+                            {
+                                <a href="@item.Picture" target="_blank">
+                                    <img src="@item.Picture" style="max-width: 150px; max-height: 150px;" />
+                                </a>
+                            }
+                            else
+                            {
+                                <img src="~/images/train-background.jpg" style="max-width: 150px; max-height: 150px;" />
+                            }
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <form asp-controller="RailwayCarriage" asp-action="RemoveRailwayCarriage" method="get">
+                                    <button asp-action="RemoveRailwayCarriage" class="btn btn-outline-primary" asp-route-id="@item.Id">Удалить</button>
+                                </form>
+                                <p></p>
+                                <form asp-controller="RailwayCarriage" asp-action="SendToRepair" method="get">
+                                    <button asp-action="SendToRepair" class="btn btn-outline-primary" asp-route-id="@item.Id">Ремонт</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="b-popup" style="visibility: hidden">
+        <div class="b-popup-content">
+            Text in Popup
+        </div>
+    </div>
+
+    <div class="column-second right-column">
+        <form asp-action="AddRailwayCarriage" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <div class="form-group">
+                    <ul class="horizontal">
+                        <li>
+                            <label style="margin-bottom: 0px">Путь</label>
+                            <p class="p-0margin"></p>
+                            <select asp-for=IdRailway>
+                                @foreach (Railway item in ViewBag.Railways)
+                                {
+                                    <option value=@item.Id>@item.RailwayName</option>
+                                }
+                            </select>
+                        </li>
+
+                        <li>
+                            <label style="margin-bottom: 0px">Тип</label>
+                            <p class="p-0margin"></p>
+                            <select asp-for=IdTypeCarriage>
+                                @foreach (TypeCarriage item in @ViewBag.TypeCarriage)
+                                {
+                                    <option value=@item.Id>@item.TypeCarriage1</option>
+                                }
+                            </select>
+                        </li>
+
+                        <li>
+                            <label style="margin-bottom: 0px">Дирекция</label>
+                            <p class="p-0margin"></p>
+                            <select asp-for=IdDirectorate>
+                                @foreach (Directorate item in @ViewBag.Directorate)
+                                {
+                                    <option value=@item.Id>@item.Directorate1</option>
+                                }
+                            </select>
+                        </li>
+                        <li>
+                            <label style="margin-bottom: 0px">Год выпуска</label>
+                            <p class="p-0margin"></p>
+                            <input asp-for=Year />
+                        </li>
+
+                    </ul>
+                    <input type="file" name="file" accept=".jpg, .jpeg, .png" placeholder="Наименование" asp-for=Picture />
+                    <p><input class="btn btn-primary btn-align-right" type="submit" value="Добавить" /></p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    };
+}

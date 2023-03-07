@@ -1,0 +1,90 @@
+﻿@using TrainRepairCRUDWebApplication.Models.InnerModels;
+@using TrainRepairCRUDWebApplication.Models;
+@model TrainRepairCRUDWebApplication.Models.Salary;
+
+@{
+    ViewData["Title"] = "Заработная плата";
+    ViewData["SecondTitle"] = "Начисление";
+}
+
+<div class=row>
+    <div class=column-first style="width: 60% "><h1>@ViewData["Title"]</h1></div>
+    <div class=column-second style="width: 40% "><h2>@ViewData["SecondTitle"]</h2></div>
+</div>
+
+<div class="row">
+    <div class="column-first table-responsive" style="width: 60% ">
+        <table>
+            <thead>
+                <tr>
+                    <td>Код</td>
+                    <td>Дата</td>
+                    <td>Сумма</td>
+                    <td>Сотрудник</td>
+                    <td> </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (SalaryInner item in ViewBag.Salaries)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td>@item.Date</td>
+                        <td>@Html.DisplayFor(modelItem => item.Allowance)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Worker)</td>
+                        <td>
+                            <div class="form-group">
+                                <form asp-controller="Salary" asp-action="RemoveSalary" method="get">
+                                    <button class="btn btn-outline-primary" name=id value=@item.Id>Удалить</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="column-second right-column" style="width: 40% ">
+        <form asp-action="AddSalary" asp-controller=Salary method="get" enctype="multipart/form-data" >
+            <div class="form-group">
+                <div class="form-group" >
+                    <div asp-validation-summary=ModelOnly></div>
+                    <ul class="horizontal">
+                        <li>
+                            <label style="margin-bottom: 0px">Дата начисления</label>
+                            <p class="p-0margin"></p>
+                            <input type="date" name=date />
+                            <span asp-validation-for=Date class=text-danger ></span>
+                        </li>
+
+                        <li>
+                            <label style="margin-bottom: 0px">Сумма</label>
+                            <p class="p-0margin"></p>
+                            <input type="text" asp-for=Allowance/>
+                            <span asp-validation-for=Allowance class=text-danger></span>
+                        </li>
+
+                        <li>
+                            <label style="margin-bottom: 0px">Сотрудник</label>
+                            <p class="p-0margin"></p>
+                            <select asp-for=IdWorker >
+                                @foreach (Worker item in @ViewBag.Workers)
+                                {
+                                    <option value=@item.Id>@($"{item.Surname} {item.Name} {item.Patronymic}")</option>
+                                }
+                            </select>
+                            <span asp-validation-for=IdWorker class=text-danger></span>
+                        </li>
+                    </ul>
+                    <p><input class="btn btn-primary btn-align-right" type="submit" value="Добавить" /></p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    };
+}

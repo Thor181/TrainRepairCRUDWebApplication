@@ -1,0 +1,57 @@
+﻿
+
+<div class="text-center">
+    <h1>Постановка на ремонт</h1>
+    <h2>Код вагона: <label style="color: #0d6efd">@ViewBag.IdCarriage</label></h2>
+    <div class="container" style="max-width: 290px">
+        <form asp-controller=RailwayCarriage asp-action=AddToRepair style="max-width:inherit" class="container">
+            <div class="form-group " style="width:inherit">
+                <ul class="horizontal" style="width:inherit">
+                    <li style="width:inherit" class="text-lg-start">
+                        <label style="margin-bottom: 0px; width: inherit" class="left-column-label">Вид ремонта</label>
+
+                        <select style="width:inherit" name="typeRepair" >
+                            @foreach (TypeRepair item in ViewBag.TypeRepair)
+                            {
+                                <option value="@item.Id">@item.TypeRepair1</option>
+                            }
+                        </select>
+                    </li>
+                    <li style="width:inherit" class="text-lg-start">
+                        <label style="margin-bottom: 0px" class="left-column-label">Дата начала</label> 
+                        <input type="date" style="width:inherit" name="dateStart"/>
+                        <label style="margin-bottom: 0px" class="left-column-label">Дата окончания</label> 
+                        <input type="date" style="width:inherit" name="dateEnd"/>
+                    </li>
+                    <li style="width:inherit" class="text-lg-start">
+                        <label style="margin-bottom: 0px" class="left-column-label">Стоимость</label>
+                        <input style="width:inherit" type="number" name="price"/>
+                    </li>
+                    <li style="width:inherit" class="text-lg-start">
+                        <input placeholder="% надбавки" type="number" style="width: 150px" name="bonus"/>
+                        @Html.CheckBox("isBonus")
+                        <label >Надбавка</label>
+                    </li>
+                    <li style="width:inherit" class="text-lg-start">
+                        <label>Бригада</label>
+                        <select style="width:inherit" name="idBrigade">
+                            @foreach (BrigadeName item in ViewBag.Brigades)
+                            {
+                                <option value="@item.Id">@item.NameBrigade</option>
+                            }
+                        </select>
+                        <textarea placeholder="Причина ремонта" style="width:inherit" name="reason"></textarea>
+                    </li>
+                    <li>
+                        <div class="text-lg">
+
+                            <button class="btn btn-primary" type="submit" value="@ViewBag.IdCarriage" name="idCarriage">Подтвердить</button>
+
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+        </form>
+    </div>
+</div>

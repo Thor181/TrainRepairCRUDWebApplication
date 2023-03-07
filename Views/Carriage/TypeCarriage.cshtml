@@ -1,0 +1,54 @@
+﻿@using TrainRepairCRUDWebApplication.Models;
+@model TrainRepairCRUDWebApplication.Models.TypeCarriage;
+
+@{
+    ViewData["Title"] = "Типы вагонов";
+}
+
+<body >
+    <h1>@ViewData["Title"]</h1>
+    <div>
+        <form asp-action="AddTypeCarriage">
+            <div class="form-group">
+                <div class=form-group>  
+                    <input placeholder="Наименование" data-val-required="text" asp-for="TypeCarriage1" />
+                    <input class="btn btn-primary" type="submit" value="Добавить"/>
+                    
+                </div>
+            </div>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <td>Код</td>
+                    <td>Наименование</td>
+                    <td> </td>
+                </tr>
+            </thead>
+            <tbody>            
+                @foreach (TypeCarriage item in ViewBag.TypesCarriage)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td>@Html.DisplayFor(x => item.TypeCarriage1)</td>
+                        <td >
+                            <form asp-controller="CarriageController" asp-action="RemoveCarriage" method="post" >                   
+                                <div class="form-group">
+                                    <button asp-action="RemoveCarriage" class="btn btn-outline-primary" asp-route-id="@item.Id">Удалить</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    };
+}

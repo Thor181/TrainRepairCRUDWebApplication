@@ -1,0 +1,87 @@
+﻿@using TrainRepairCRUDWebApplication.Models;
+@model TrainRepairCRUDWebApplication.Models.Worker;
+
+@{
+    ViewData["Title"] = "Сотрудники";
+}
+
+<div class=row>
+    <div class=column-first style="width: 90% !important"><h1>@ViewData["Title"]</h1></div>
+    <div class=column-second style="width: 10% !important"><h2>Добавление сотрудников</h2></div>
+</div>
+
+<div class="row">
+
+    <div class="column-first table-responsive" style="width: 90% !important">
+        <table>
+            <thead>
+                <tr>
+                    <td>Код</td>
+                    <td>Фамилия</td>
+                    <td>Имя</td>
+                    <td>Отчество</td>
+                    <td>Образование</td>
+                    <td>Стаж</td>
+                    <td>Специальность</td>
+                    <td>Расчетный номер</td>
+                    <td>Прораб</td>
+                    <td>Заработная плата</td>
+                    <td> </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Worker item in ViewBag.Workers)
+                {
+                    <tr class="text-center">
+                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Surname)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Patronymic)</td>
+                        <td>@Html.DisplayFor(modelItem => item.BaseWorker)</td>
+                        <td>@Html.DisplayFor(modelItem => item.YearWorker)</td>
+                        <td>@Html.DisplayFor(modelItem => item.SpecialWorker)</td>
+                        <td>@Html.DisplayFor(modelItem => item.BankKart)</td>
+                        <td>@(item.IsForeman == true ? "Да" : "Нет")</td>
+                        <td>@Html.DisplayFor(modelItem => item.Salary)</td>
+                        <td>
+                            <form asp-controller="Worker" asp-action="RemoveWorker"  method="get">
+                                <div class="form-group">
+                                    <button class="btn btn-outline-primary" value="@item.Id" name=id>Уволить</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="column-second right-column" style="width: 10% !important">
+        <form asp-action="AddWorker">
+            <div class="form-group">
+                <div asp-validation-summary=ModelOnly></div>
+                <div class="form-group">
+                    <input placeholder="Фамилия" asp-for=Surname/>
+                    <input placeholder="Имя" asp-for=Name/>
+                    <input placeholder="Отчество" asp-for=Patronymic/>
+                    <input placeholder="Образование" asp-for=BaseWorker />
+                    <input placeholder="Стаж" asp-for=YearWorker />
+                    <input placeholder="Специальность" asp-for=SpecialWorker/>
+                    <input placeholder="Расчетный номер" asp-for=BankKart/>
+                    <input placeholder="Заработная плата" asp-for=Salary/>
+                    <div>
+                        <label>Прораб</label>
+                        @Html.CheckBox("IsForeman")
+                        @*<input type="checkbox" asp-for=IsForeman/>*@
+                    </div>
+                    <p><input class="btn btn-primary btn-align-right" type="submit" value="Добавить"/></p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    };
+}

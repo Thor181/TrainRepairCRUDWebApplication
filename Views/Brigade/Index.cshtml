@@ -1,0 +1,82 @@
+﻿@using TrainRepairCRUDWebApplication.Models.InnerModels;
+@model TrainRepairCRUDWebApplication.Models.Brigade;
+
+@{
+    ViewData["Title"] = "Бригады";
+}
+
+<div class=row>
+    <div class=column-first style="width: 50% !important"><h1>@ViewData["Title"]</h1></div>
+    <div class=column-second style="width: 50% !important"><h2>Формирование бригады</h2></div>
+</div>
+
+<div class="row">
+    <div class="column-first table-responsive" style="width: 50% !important">
+        <table>
+            <thead>
+                <tr>
+                    <td>Сотрудник</td>
+                    <td>Бригада</td>
+                    <td> </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (BrigadeInner item in ViewBag.Brigades)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(x => item.WorkerName)</td>
+                        <td>@Html.DisplayFor(x => item.BrigadeName)</td>
+                        <td>
+                            <form asp-action="RemoveBrigade" method="get">
+                                <div class="form-group">
+                                    <button class="btn btn-outline-primary" value="@item.Id" name=id>Удалить</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="column-second right-column" style="width: 50% !important">
+        <form asp-action="AddBrigade">
+            <div class="form-group">
+                <ul class="horizontal">
+                    <li class="text-lg-start">
+                        <div>
+                            <label>Сотрудник</label>
+                            <p>
+                                <select asp-for=IdWorker>
+                                    @foreach (Worker item in ViewBag.Workers)
+                                    {
+                                        <option value="@item.Id">@($"{item.Surname} {item.Name} {item.Patronymic}")</option>
+                                    }
+                                </select>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="text-lg-start">
+                        <div>
+                            <label>Бригада</label>
+                            <p>
+                                <select asp-for=IdBrigade>
+                                    @foreach (BrigadeName item in ViewBag.BrigadeNames)
+                                    {
+                                        <option value="@item.Id">@item.NameBrigade</option>
+                                    }
+                                </select>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+                <p><input class="btn btn-primary btn-align-right" type="submit" value="Добавить" /></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    };
+}

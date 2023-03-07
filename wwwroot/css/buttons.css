@@ -1,0 +1,19 @@
+﻿.dirButton {
+    background-image: linear-gradient(90deg, #2193b0 0%, #6dd5ed 40%);
+    color: #000000;
+    font-weight: 500;
+    border-radius: 3px;
+    border-style: none;
+    margin-bottom: 5px;
+}
+
+
+.dirButton:active {
+    position: relative;
+    top: 1px;
+    background-image: linear-gradient(90deg, #2193b0 0%, #6dd5ed 40%);
+}
+
+.btn-align-right{
+    align-self: end;
+}

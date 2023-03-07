@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using TrainRepairCRUDWebApplication.Models.Authorization;
+
+namespace TrainRepairCRUDWebApplication.Models
+{
+    public partial class Role
+    {
+        public Role()
+        {
+            Users = new HashSet<User>();
+        }
+
+        public int Id { get; set; }
+        public string Role1 { get; set; } = null!;
+
+        public virtual ICollection<User> Users { get; set; }
+    }
+}
